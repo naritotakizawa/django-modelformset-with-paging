@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<form action="" method="post">
+    <div class="row">
+        {% for form in formset %}
+            <div class="col-sm-4">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+    </div>
+    {{ formset.management_form }}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">送信</button>
+</form>
+
+<hr>
+
+<!-- 前へ の部分 -->
+{% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+{% endif %}
+
+<!-- 数字の部分 -->
+{% for num in page_obj.paginator.page_range %}
+  {% if page_obj.number == num %}
+    <span>{{ num }}</span>
+  {% else %}
+    <a href="?page={{ num }}">{{ num }}</a>
+  {% endif %}
+{% endfor %}
+
+<!-- 次へ の部分 -->
+{% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}">Next</a>
+{% endif %}
+
+{% endblock %}
